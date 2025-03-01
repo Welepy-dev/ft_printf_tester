@@ -1,6 +1,11 @@
 #!/bin/bash
 
 # Step 1: Compile the program
+make all
+if [ $? -ne 0 ]; then
+	echo "Compilation failed!"
+	exit 1
+fi
 cc tests.c -o lol -L. -lftprintf
 if [ $? -ne 0 ]; then
 	echo "Compilation failed!"
