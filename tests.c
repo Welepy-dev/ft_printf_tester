@@ -6,12 +6,12 @@
 /*   By: welepy <welepy@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/09 11:34:37 by marcsilv          #+#    #+#             */
-/*   Updated: 2025/03/01 16:13:15 by welepy           ###   ########.fr       */
+/*   Updated: 2025/03/01 16:29:57 by welepy           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
 #include <stdio.h>
+#include <limits.h>
 
 int	main(void)
 {
