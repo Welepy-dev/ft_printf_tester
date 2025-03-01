@@ -1,227 +1,72 @@
 #!/bin/bash
 
-# Step 1: Compile the program
+# Compile the program
 cc teste.c -o lol -L. -lftprintf
 if [ $? -ne 0 ]; then
     echo "Compilation failed!"
     exit 1
 fi
 
-# Step 2: Run the program and append output to result.txt
+# Run the program and capture output
 ./lol > result.txt
 
-# Step 3: Define the expected test outputs
-expected_outputs=(
-   "| +0 |"
-"| -1 |"
-"| +9 |"
-"| +10 |"
-"| +11 |"
-"| +15 |"
-"| +16 |"
-"| +17 |"
-"| +99 |"
-"| +100 |"
-"| +101 |"
-"| -9 |"
-"| -10 |"
-"| -11 |"
-"| -14 |"
-"| -15 |"
-"| -16 |"
-"| -99 |"
-"| -100 |"
-"| -101 |"
-"| +2147483647 |"
-"| -2147483648 |"
-"| -1 |"
-"| +0 |"
-"| -1 |"
-"| -1 |"
-"| -1 |"
-"| +2147483647 -2147483648 -1 +0 -1 +0 -42 |"
-"| +0 |"
-"| -1 |"
-"| +1 |"
-"| +9 |"
-"| +10 |"
-"| +11 |"
-"| +15 |"
-"| +16 |"
-"| +17 |"
-"| +99 |"
-"| +100 |"
-"| +101 |"
-"| -9 |"
-"| -10 |"
-"| -11 |"
-"| -14 |"
-"| -15 |"
-"| -16 |"
-"| -99 |"
-"| -100 |"
-"| -101 |"
-"| +2147483647 |"
-"| -2147483648 |"
-"| -1 |"
-"| +0 |"
-"| -1 |"
-"| -1 |"
-"| -1 |"
-"| +2147483647 -2147483648 -1 +0 -1 +0 -42 |"
-"| 0 |"
-"| -1 |"
-"| 0009 |"
-"| 10 |"
-"| 11 |"
-"| 015 |"
-"| 0016 |"
-"| 00017 |"
-"| 99 |"
-"| 100 |"
-"| 101 |"
-"| -9 |"
-"| -10 |"
-"| -11 |"
-"| -014 |"
-"| -0015 |"
-"| -00016 |"
-"| -99 |"
-"| -100 |"
-"| -101 |"
-"| 2147483647 |"
-"| -2147483648 |"
-"| -0000000001 |"
-"| 000000000000 |"
-"| -000000000001 |"
-"| -0000000000001 |"
-"| -00000000000001 |"
-"| 2147483647 -2147483648 -0000000001 000000000000 -000000000001 00000000000000 -00000000000042 |"
-"| 0 |"
-"| -1 |"
-"| 001 |"
-"| 0009 |"
-"| 10 |"
-"| 11 |"
-"| 015 |"
-"| 0016 |"
-"| 00017 |"
-"| 99 |"
-"| 100 |"
-"| 101 |"
-"| -9 |"
-"| -10 |"
-"| -11 |"
-"| -014 |"
-"| -0015 |"
-"| -00016 |"
-"| -99 |"
-"| -100 |"
-"| -101 |"
-"| 2147483647 |"
-"| -2147483648 |"
-"| -0000000001 |"
-"| 000000000000 |"
-"| -000000000001 |"
-"| -0000000000001 |"
-"| -00000000000001 |"
-"| 2147483647 -2147483648 -0000000001 000000000000 -000000000001 00000000000000 -00000000000042 |"
-"| 0 |"
-"| 4294967295 |"
-"| 001 |"
-"| 0009 |"
-"| 10 |"
-"| 11 |"
-"| 015 |"
-"| 0016 |"
-"| 00017 |"
-"| 99 |"
-"| 100 |"
-"| 101 |"
-"| 4294967287 |"
-"| 4294967286 |"
-"| 4294967285 |"
-"| 4294967282 |"
-"| 4294967281 |"
-"| 4294967280 |"
-"| 4294967197 |"
-"| 4294967196 |"
-"| 4294967195 |"
-"| 2147483647 |"
-"| 2147483648 |"
-"| 0000004294967295 |"
-"| 000000000000 |"
-"| 000000004294967295 |"
-"| 0000000004294967295 |"
-"| 00000000004294967295 |"
-"| 2147483647 2147483648 0000004294967295 000000000000 000000004294967295 00000000000000 0000000004294967254 |"
-"| 0 |"
-"| ffffffff |"
-"| 001 |"
-"| 0009 |"
-"| a |"
-"| b |"
-"| 0f |"
-"| 0010 |"
-"| 000011 |"
-"| 63 |"
-"| 64 |"
-"| 065 |"
-"| fffffff7 |"
-"| fffffff6 |"
-"| fffffff5 |"
-"| fffffff2 |"
-"| fffffff1 |"
-"| fffffff0 |"
-"| ffffff9d |"
-"| ffffff9c |"
-"| ffffff9b |"
-"| 7fffffff |"
-"| 80000000 |"
-"| 000000ffffffff |"
-"| 000000000000 |"
-"| 00000000ffffffff |"
-"| 000000000ffffffff |"
-"| 0000000000ffffffff |"
-"| 7fffffff 80000000 000000ffffffff 000000000000 00000000ffffffff 00000000000000 000000000ffffffd6 |"
-"| 0 |"
-"| FFFFFFFF |"
-"| 001 |"
-"| 0009 |"
-"| A |"
-"| B |"
-"| 0F |"
-"| 0010 |"
-"| 000011 |"
-"| 63 |"
-"| 64 |"
-"| 065 |"
-"| FFFFFFF7 |"
-"| FFFFFFF6 |"
-"| FFFFFFF5 |"
-"| FFFFFFF2 |"
-"| FFFFFFF1 |"
-"| FFFFFFF0 |"
-"| FFFFFF9D |"
-"| FFFFFF9C |"
-"| FFFFFF9B |"
-"| 7FFFFFFF |"
-"| 80000000 |"
-"| 000000FFFFFFFF |"
-"| 000000000000 |"
-"| 00000000FFFFFFFF |"
-"| 000000000FFFFFFFF |"
-"| 0000000000FFFFFFFF |"
-"| 7FFFFFFF 80000000 000000FFFFFFFF 000000000000 00000000FFFFFFFF 00000000000000 000000000FFFFFFD6 |"
-)
+# Check if input_examples.txt exists
+if [ ! -f "input_examples.txt" ]; then
+    echo "Error: input_examples.txt file not found!"
+    exit 1
+fi
 
-# Step 4: Read the result file line by line and compare with expected outputs
+# Read expected outputs into an array
+mapfile -t expected_outputs < input_examples.txt
+
+# Initialize counters and arrays
 line_number=0
+wrong=0
+declare -a wrongs
+right=0
+
+# Compare results with expected outputs
 while IFS= read -r result_line; do
-    expected_line="${expected_outputs[$line_number]}"
+    if [ $line_number -lt ${#expected_outputs[@]} ]; then
+        expected_line="${expected_outputs[$line_number]}"
+    else
+        expected_line=""
+    fi
+
     echo "$result_line | $expected_line : $(if [ "$result_line" = "$expected_line" ]; then echo "OK"; else echo "KO"; fi)"
+
+    if [ "$result_line" != "$expected_line" ]; then
+        wrong=$((wrong + 1))
+        wrongs+=("$line_number")
+    else
+        right=$((right + 1))
+    fi
     line_number=$((line_number + 1))
 done < result.txt
 
-# Cleanup (optional)
-# rm -f lol result.txt
+echo 
+
+# Check if went_wrong.txt exists
+if [ ! -f "went_wrong.txt" ]; then
+    echo "Error: went_wrong.txt file not found!"
+    exit 1
+fi
+
+# Read test lines into an array
+mapfile -t test_lines < went_wrong.txt
+
+# Print summary of results
+if [ $wrong -eq 0 ]; then
+    echo "All tests passed!"
+else
+    echo "You failed $wrong tests"
+    echo "These are the tests that failed:"
+    for i in "${wrongs[@]}"; do
+        if [ $i -lt ${#test_lines[@]} ]; then
+            echo "${test_lines[$i]}"
+        fi
+    done
+fi
+
+# Cleanup
+rm -f lol result.txt
