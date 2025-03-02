@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cc ./examples/mandatory/teste.c -o mandatory_test -L. -lftprintf
+cc ./examples/mandatory/teste.c -o mandatory_test -L../. -lftprintf
 if [ $? -ne 0 ]; then
 	echo "Compilation failed!"
 	exit 1
