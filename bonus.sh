@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cc ./examples/bonus/teste.c -o bonus_test -L. -lftprintf
+cc ./examples/bonus/teste.c -o bonus_test -L../. -lftprintf
 if [ $? -ne 0 ]; then
 	echo "Compilation failed!"
 	exit 1
@@ -23,7 +23,6 @@ if [ ! -f "./examples/bonus/went_wrong.txt" ]; then
 	echo "Error: went_wrong.txt file not found!"
 	exit 1
 fi
-
 
 mapfile -t expected_outputs < ./examples/bonus/examples.txt
 mapfile -t test_lines < ./examples/bonus/went_wrong.txt
@@ -55,7 +54,7 @@ while IFS= read -r result_line; do
 	printf "%-40s | %-40s | ${color}%-4s\033[0m\n" "$result_line" "$expected_line" "$status"
 
 	line_number=$((line_number + 1))
-	sleep 0.05
+	sleep 0.01
 done < bonus_output
 
 echo
